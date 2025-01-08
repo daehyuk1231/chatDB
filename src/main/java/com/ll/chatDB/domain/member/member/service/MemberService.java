@@ -6,6 +6,8 @@ import com.ll.chatDB.global.rsData.RsData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class MemberService {
@@ -20,5 +22,9 @@ public class MemberService {
         memberRepository.save(member);
 
         return RsData.of("200", "%s 님 가입을 환영합니다.".formatted(username),  member);
+    }
+
+    public Optional<Member> findById(long id) {
+        return memberRepository.findById(id);
     }
 }
