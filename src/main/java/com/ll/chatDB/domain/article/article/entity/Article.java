@@ -30,7 +30,7 @@ public class Article extends BaseEntity {
     @OneToMany(mappedBy = "article", cascade = ALL)
     @Builder.Default
     @ToString.Exclude
-    private List<ArticleComment> articleComments = new ArrayList<>();
+    private List<ArticleComment> comments = new ArrayList<>();
 
     public void addComment(Member memberAuthor, String commentBody) {
         ArticleComment articleComment = ArticleComment.builder()
@@ -38,7 +38,10 @@ public class Article extends BaseEntity {
                 .author(memberAuthor)
                 .body(commentBody)
                 .build();
-        articleComments.add(articleComment);
+        comments.add(articleComment);
     }
 
+    public void removeComment(ArticleComment comment) {
+        comments.remove(comment);
+    }
 }

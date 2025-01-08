@@ -2,6 +2,7 @@ package com.ll.chatDB.domain.article.article.service;
 
 import com.ll.chatDB.domain.article.article.entity.Article;
 import com.ll.chatDB.domain.article.article.repository.ArticleRepository;
+import com.ll.chatDB.domain.article.articleComment.entity.ArticleComment;
 import com.ll.chatDB.domain.member.member.entity.Member;
 import com.ll.chatDB.global.rsData.RsData;
 import jakarta.transaction.Transactional;
@@ -39,5 +40,10 @@ public class ArticleService {
         article.setContent(content);
 
         articleRepository.save(article);
+    }
+
+    @Transactional
+    public void modifyComment(ArticleComment comment, String body) {
+        comment.setBody(body);
     }
 }
