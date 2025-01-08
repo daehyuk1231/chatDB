@@ -1,4 +1,4 @@
-package com.ll.chatDB.domain.chat.member.member.entity;
+package com.ll.chatDB.domain.member.member.entity;
 
 import com.ll.chatDB.global.jpa.BaseEntity;
 import jakarta.persistence.Entity;

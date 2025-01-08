@@ -1,7 +1,7 @@
-package com.ll.chatDB.domain.chat.member.member.service;
+package com.ll.chatDB.domain.member.member.service;
 
-import com.ll.chatDB.domain.chat.member.member.entity.Member;
-import com.ll.chatDB.domain.chat.member.member.repository.MemberRepository;
+import com.ll.chatDB.domain.member.member.entity.Member;
+import com.ll.chatDB.domain.member.member.repository.MemberRepository;
 import com.ll.chatDB.global.rsData.RsData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
-package com.ll.chatDB.domain.member.member.service;
+package com.ll.chatDB.domain.article.article.service;
 
-import com.ll.chatDB.domain.member.member.entity.Member;
+import com.ll.chatDB.domain.article.article.entity.Article;
 import com.ll.chatDB.global.rsData.RsData;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
@@ -14,14 +14,16 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @SpringBootTest
 @ActiveProfiles("test")
 @Transactional
-public class MemberServiceTest {
+public class ArticleServiceTest {
     @Autowired
-    private MemberService memberService;
-    @DisplayName("회원가입")
+    private ArticleService articleService;
+
+    @DisplayName("글 쓰기")
     @Test
     void t1() {
-        RsData<Member> joinRs = memberService.join("usernew", "1234");
-        Member member = joinRs.getData();
-        assertThat(member.getId()).isGreaterThan(0L);
+        RsData<Article> writeRs = articleService.write(1L, "제목", "내용");
+        Article article = writeRs.getData();
+
+        assertThat(article.getId()).isGreaterThan(0L);
     }
 }
