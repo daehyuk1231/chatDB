@@ -22,11 +22,10 @@ public class ApiV1ChatRoomController {
     }
 
     @GetMapping("/api/v1/chat/rooms/{roomId}")
-    public String getChatRoom(@PathVariable("roomId") Long roomId) {
-        return roomId + "번 채팅방 조회완료";
+    public ChatRoom getChatRoom(@PathVariable("roomId") Long roomId) {
+        ChatRoom chatRoom = chatRoomService.getChatRoom(roomId);
+        return chatRoom;
     }
-
-
 
     @PostMapping
     public ChatRoom createChatRoom(@RequestBody RequestCreateRoom requestCreateRoom) {

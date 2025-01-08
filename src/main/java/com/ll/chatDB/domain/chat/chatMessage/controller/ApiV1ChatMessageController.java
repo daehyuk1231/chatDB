@@ -3,7 +3,7 @@ package com.ll.chatDB.domain.chat.chatMessage.controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/chat/rooms")
+@CrossOrigin(origins = "https://cdpn.io")
 public class ApiV1ChatMessageController {
     @GetMapping("/api/v1/chat/rooms/{roomId}/messages")
     //1번채팅방 메시지 목록 조회 완료 id : 2
