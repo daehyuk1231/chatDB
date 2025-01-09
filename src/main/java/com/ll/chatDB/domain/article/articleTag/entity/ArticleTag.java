@@ -1,7 +1,6 @@
-package com.ll.chatDB.domain.article.articleComment.entity;
+package com.ll.chatDB.domain.article.articleTag.entity;
 
 import com.ll.chatDB.domain.article.article.entity.Article;
-import com.ll.chatDB.domain.member.member.entity.Member;
 import com.ll.chatDB.global.jpa.BaseEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -16,12 +15,8 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @SuperBuilder
 @ToString(callSuper = true)
-public class ArticleComment extends BaseEntity {
+public class ArticleTag extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Article article;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Member author;
-
-    private String body;
+    private String content;
 }
