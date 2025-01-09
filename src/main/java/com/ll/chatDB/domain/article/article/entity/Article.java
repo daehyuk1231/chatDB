@@ -8,12 +8,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.transaction.Transactional;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static jakarta.persistence.CascadeType.ALL;
 
@@ -27,39 +27,39 @@ import static jakarta.persistence.CascadeType.ALL;
 public class Article extends BaseEntity {
     private String title;
     private String content;
-    @ManyToOne(fetch = FetchType.LAZY) //fetch = FetchType.EAGER
+    @ManyToOne(fetch = FetchType.LAZY)
     private Member author;
-    
-    @OneToMany(mappedBy = "article", cascade = ALL, orphanRemoval = true) //fetch = FetchType.LAZY
+
+    @OneToMany(mappedBy = "article", cascade = ALL, orphanRemoval = true) // fetch = FetchType.LAZY
     @Builder.Default
+    @ToString.Exclude
     private List<ArticleComment> comments = new ArrayList<>();
 
-    @Transactional
     public void addComment(Member memberAuthor, String commentBody) {
-        ArticleComment articleComment = ArticleComment.builder()
+        ArticleComment comment = ArticleComment.builder()
                 .article(this)
                 .author(memberAuthor)
                 .body(commentBody)
                 .build();
-        comments.add(articleComment);
+
+        comments.add(comment);
     }
 
-    @Transactional
     public void removeComment(ArticleComment articleComment) {
         comments.remove(articleComment);
     }
 
     @OneToMany(mappedBy = "article", cascade = ALL, orphanRemoval = true)
     @Builder.Default
+    @ToString.Exclude
     private List<ArticleTag> tags = new ArrayList<>();
 
     public void addTag(String tagContent) {
-        ArticleTag articleTag = ArticleTag.builder()
+        ArticleTag tag = ArticleTag.builder()
                 .article(this)
                 .content(tagContent)
                 .build();
-
-        tags.add(articleTag);
+        tags.add(tag);
     }
 
     public void addTags(String... tagContents) {
@@ -68,4 +68,18 @@ public class Article extends BaseEntity {
         }
     }
 
+
+    public String getTagsStr() {
+        String tagsStr = tags
+                .stream()
+                .map(ArticleTag::getContent)
+                .collect(Collectors.joining(" #"));
+
+        if (tagsStr.isBlank()) {
+            return "";
+        }
+
+        return "#" + tagsStr;
+
+    }
 }

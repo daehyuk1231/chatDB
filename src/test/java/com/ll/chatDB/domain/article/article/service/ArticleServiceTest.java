@@ -2,7 +2,9 @@ package com.ll.chatDB.domain.article.article.service;
 
 import com.ll.chatDB.domain.article.article.entity.Article;
 import com.ll.chatDB.domain.article.articleComment.entity.ArticleComment;
+import com.ll.chatDB.domain.article.articleComment.service.ArticleCommentService;
 import com.ll.chatDB.domain.article.articleTag.entity.ArticleTag;
+import com.ll.chatDB.domain.article.articleTag.service.ArticleTagService;
 import com.ll.chatDB.domain.member.member.entity.Member;
 import com.ll.chatDB.domain.member.member.service.MemberService;
 import com.ll.chatDB.global.rsData.RsData;
@@ -19,7 +21,7 @@ import java.util.List;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest
-@ActiveProfiles({"test", "dev"})
+@ActiveProfiles("test")
 @Transactional
 public class ArticleServiceTest {
     @Autowired
@@ -27,6 +29,12 @@ public class ArticleServiceTest {
 
     @Autowired
     private MemberService memberService;
+
+    @Autowired
+    private ArticleCommentService articleCommentService;
+
+    @Autowired
+    private ArticleTagService articleTagService;
 
     @DisplayName("글 쓰기")
     @Test
@@ -50,7 +58,7 @@ public class ArticleServiceTest {
         Article article = articleService.findById(1L).get();
         Member author = article.getAuthor();
 
-        assertThat(author.getAuthor()).isEqualTo("user1");
+        assertThat(author.getUsername()).isEqualTo("user1");
     }
     @DisplayName("1번 글의 제목을 수정한다.")
     @Test
