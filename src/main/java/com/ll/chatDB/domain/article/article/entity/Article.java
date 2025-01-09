@@ -6,6 +6,7 @@ import com.ll.chatDB.global.jpa.BaseEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.transaction.Transactional;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -26,12 +27,13 @@ public class Article extends BaseEntity {
     private String content;
     @ManyToOne
     private Member author;
-
+    
     @OneToMany(mappedBy = "article", cascade = ALL)
     @Builder.Default
     @ToString.Exclude
     private List<ArticleComment> comments = new ArrayList<>();
 
+    @Transactional
     public void addComment(Member memberAuthor, String commentBody) {
         ArticleComment articleComment = ArticleComment.builder()
                 .article(this)
