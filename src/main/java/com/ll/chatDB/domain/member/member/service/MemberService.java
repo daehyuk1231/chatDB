@@ -15,7 +15,7 @@ public class MemberService {
 
     public RsData<Member> join(String username, String password) {
         Member member = Member.builder()
-                .username(username)
+                .author(username)
                 .password(password)
                 .build();
 

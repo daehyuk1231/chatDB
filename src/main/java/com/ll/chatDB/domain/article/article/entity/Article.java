@@ -43,7 +43,8 @@ public class Article extends BaseEntity {
         comments.add(articleComment);
     }
 
-    public void removeComment(ArticleComment comment) {
-        comments.remove(comment);
+    @Transactional
+    public void removeComment(ArticleComment articleComment) {
+        comments.remove(articleComment);
     }
 }
