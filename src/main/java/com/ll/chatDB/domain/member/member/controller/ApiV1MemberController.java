@@ -7,10 +7,13 @@ import com.ll.chatDB.domain.member.member.service.MemberService;
 import com.ll.chatDB.global.jwt.JwtProvider;
 import com.ll.chatDB.global.rsData.RsData;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/members")
@@ -34,7 +37,12 @@ public class ApiV1MemberController {
         String token = jwtProvider.genAccessToken(member);
 
         // 응답 데이터에 accessToken 이름으로 토큰을 발급
-        response.addCookie(new Cookie("accessToken", token));
+        Cookie cookie = new Cookie("accessToken", token);
+            cookie.setHttpOnly(true);
+            cookie.setSecure(true);
+            cookie.setPath("/");
+            cookie.setMaxAge(60 * 60);
+        response.addCookie(cookie);
 
         return new RsData<>("200", "로그인에 성공하였습니다.");
     }
@@ -45,7 +53,21 @@ public class ApiV1MemberController {
     }
 
     @GetMapping("/me")
-    public void me() {
-        System.out.println("me");
+    public RsData<MemberDto> me(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        String accessToken = "";
+
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals("accessToken")) {
+                accessToken = cookie.getValue();
+            }
+        }
+
+        Map<String, Object> claims = jwtProvider.getClaims(accessToken);
+        String username = (String) claims.get("username");
+
+        Member member = this.memberService.getMember(username);
+
+        return new RsData("200", "회원정보 조회 성공", new MemberDto(member));
     }
 }
