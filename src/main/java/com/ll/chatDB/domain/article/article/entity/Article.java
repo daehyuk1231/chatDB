@@ -1,5 +1,6 @@
 package com.ll.chatDB.domain.article.article.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ll.chatDB.domain.article.articleComment.entity.ArticleComment;
 import com.ll.chatDB.domain.article.articleTag.entity.ArticleTag;
 import com.ll.chatDB.domain.member.member.entity.Member;
@@ -27,9 +28,11 @@ import static jakarta.persistence.CascadeType.ALL;
 public class Article extends BaseEntity {
     private String title;
     private String content;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Member author;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "article", cascade = ALL, orphanRemoval = true) // fetch = FetchType.LAZY
     @Builder.Default
     @ToString.Exclude
@@ -49,6 +52,7 @@ public class Article extends BaseEntity {
         comments.remove(articleComment);
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "article", cascade = ALL, orphanRemoval = true)
     @Builder.Default
     @ToString.Exclude
