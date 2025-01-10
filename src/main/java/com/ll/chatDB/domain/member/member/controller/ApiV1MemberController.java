@@ -1,18 +1,23 @@
 package com.ll.chatDB.domain.member.member.controller;
 
+import com.ll.chatDB.domain.member.member.dto.MemberRequest;
+import com.ll.chatDB.domain.member.member.entity.Member;
+import com.ll.chatDB.domain.member.member.service.MemberService;
+import com.ll.chatDB.global.rsData.RsData;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/members")
 @RequiredArgsConstructor
 public class ApiV1MemberController {
-    @PostMapping("/join")
-    public void join() {
-        System.out.println("join");
+    private final MemberService memberService;
+    @PostMapping("/signup")
+    public RsData<String> signup(@Valid @RequestBody MemberRequest memberRequest) {
+        Member member = memberService.join(memberRequest.getUsername(), memberRequest.getPassword());
+
+        return RsData.of("200", "회원가입에 성공하였습니다.", member.getUsername());
     }
 
     @PostMapping("/login")
