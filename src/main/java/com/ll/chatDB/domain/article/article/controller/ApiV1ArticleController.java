@@ -39,7 +39,7 @@ public class ApiV1ArticleController {
     @PostMapping
     public RsData<ArticleDto> writeArticle(@Valid @RequestBody ArticleWriteRequest articleWriteRequest) {
         Article article = articleService.write(articleWriteRequest.getTitle(), articleWriteRequest.getContent());
-        return RsData.of(
+        return new RsData<>(
                 "200",
                 "게시글이 작성에 성공하였습니다.",
                 new ArticleDto(article)
@@ -51,7 +51,7 @@ public class ApiV1ArticleController {
         Article article = this.articleService.findById(id).orElse(null);
         Article modifiedArticle = this.articleService.modify(article, articleModifyRequest.getTitle(), articleModifyRequest.getContent());
 
-        return RsData.of(
+        return new RsData<>(
                 "200",
                 "게시글이 수정에 성공하였습니다.",
                 new ArticleDto(modifiedArticle)
@@ -62,7 +62,7 @@ public class ApiV1ArticleController {
     public RsData<Void> deleteArticle(@PathVariable("id") Long id) {
         this.articleService.delete(id);
 
-        return RsData.of(
+        return new RsData<>(
                 "200",
                 "게시글이 삭제에 성공하였습니다.",
                 null
