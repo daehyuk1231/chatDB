@@ -51,6 +51,7 @@ public class ArticleService {
         return articleRepository.findAll();
     }
 
+    @Transactional
     public void delete(Long id) {
         this.articleRepository.deleteById(id);
     }
